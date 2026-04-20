@@ -63,7 +63,7 @@ class S3Context:
             except botocore.exceptions.ClientError as e:
                 logger.error(f'{e}')
 
-    def upload_file(self, fileobj, bucket, key):
+    def upload_file(self, fileobj, bucket, key, config=None):
         """Upload a file in S3 bucket.
         - Ex: bucket Foo, folder in bucket Foo/Bar/, filepath /tmp/Baz.txt
             - fileobj = /tmp/Baz.txt (as a path)
@@ -76,7 +76,10 @@ class S3Context:
             if isinstance(fileobj, str):
                 fileobj = Path(fileobj).open('rb')
                 opened = True
-            self.s3.meta.client.upload_fileobj(fileobj, bucket, key)
+            kw = {}
+            if config is not None:
+                kw['Config'] = config
+            self.s3.meta.client.upload_fileobj(fileobj, bucket, key, **kw)
             logger.info(f'Uploaded {key} to {bucket}')
         except Exception as exc:
             logger.error(exc)
