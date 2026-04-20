@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "libb-aws"
+version = "0.0.1"
+description = ""
+authors = ["bissli <bissli@xyz.com>"]
+readme = "README.md"
+packages = [{include = "aws", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+boto3 = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-mock = "*"
+
+[tool.pytest.ini_options]
+markers = [
+    "live: requires real AWS credentials (deselect with '-m not live')",
+]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
