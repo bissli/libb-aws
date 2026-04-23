@@ -29,6 +29,9 @@ WORKSPACE_PREFIX = 'application/vnd.google-apps.'
 EXPORT_EXTENSIONS = {
     'text/plain': '.txt',
     'text/csv': '.csv',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
     'application/pdf': '.pdf',
     'application/vnd.google-apps.script+json': '.json',
     }

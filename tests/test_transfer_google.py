@@ -51,7 +51,7 @@ class TestTransferGoogleFile:
         assert call_args[0][2] == 'archive/Root/data/report.pdf'
 
     def test_workspace_doc_exported(self, mock_drive, mock_s3):
-        """Google Doc exported as .txt via export()."""
+        """Google Doc exported as .docx via export()."""
         entry = _entry(
             '/Root/notes/Meeting Notes',
             'application/vnd.google-apps.document')
@@ -60,9 +60,11 @@ class TestTransferGoogleFile:
         assert status == 'exported'
         mock_drive.export.assert_called_once_with(
             folder='/Root/notes', filename='Meeting Notes',
-            mime_type='text/plain')
+            mime_type=(
+                'application/vnd.openxmlformats-officedocument'
+                '.wordprocessingml.document'))
         key = mock_s3.upload_file.call_args[0][2]
-        assert key.endswith('.txt')
+        assert key.endswith('.docx')
 
     def test_workspace_sheet_exported(self, mock_drive, mock_s3):
         """Google Sheet exported as .csv."""
@@ -74,9 +76,11 @@ class TestTransferGoogleFile:
         assert status == 'exported'
         mock_drive.export.assert_called_once_with(
             folder='/Root', filename='Budget',
-            mime_type='text/csv')
+            mime_type=(
+                'application/vnd.openxmlformats-officedocument'
+                '.spreadsheetml.sheet'))
         key = mock_s3.upload_file.call_args[0][2]
-        assert key.endswith('.csv')
+        assert key.endswith('.xlsx')
 
     def test_unsupported_workspace_type_skipped(self, mock_drive, mock_s3):
         """Unmapped Workspace mimeType logged and skipped."""
